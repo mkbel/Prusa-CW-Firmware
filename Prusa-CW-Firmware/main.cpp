@@ -429,7 +429,7 @@ void motor_configuration() {
 
 void setup() {
 
-  //SerialUSB.begin(115200);
+  SerialUSB.begin(115200);
   outputchip.begin();
   outputchip.pinMode(0B0000000010010111);
   outputchip.pullupMode(0B0000000010000011);
@@ -2042,14 +2042,22 @@ void button_press() {
   //delay(475);
 }
 
-ISR(TIMER3_COMPA_vect) { // timmer for stepper move
+//! @brief timer for stepper move
+ISR(TIMER3_COMPA_vect)
+{
+    static unsigned long last = micros();
 
-  if (motor_running == true) {
-    digitalWrite(STEP_PIN, HIGH);
-    delayMicroseconds(2);
-    digitalWrite(STEP_PIN, LOW);
-    delayMicroseconds(2);
-  }
+    if (motor_running == true)
+    {
+        digitalWrite(STEP_PIN, HIGH);
+        delayMicroseconds(2);
+        digitalWrite(STEP_PIN, LOW);
+        unsigned long period = micros() - last;
+        SerialUSB.print(period);
+        SerialUSB.write('\n');
+    }
+
+    last = micros();
 }
 
 //ISR(TIMER1_COMPA_vect) // timmer for encoder reading
