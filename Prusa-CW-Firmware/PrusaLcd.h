@@ -27,8 +27,9 @@ public:
     //! @par c null terminated string to print
     //! @par n number of characters to print or clear
     //! @par last_symbol if non-zero print it in the end of line
-    void printClear_P(const char *c, uint_least8_t n, Terminator terminator)
+    void printClear_P(const __FlashStringHelper *string, uint_least8_t n, Terminator terminator)
     {
+        const char *c = reinterpret_cast<const char*>(string);
 #if 0
         if (terminator == Terminator::serialNumber)
         {
