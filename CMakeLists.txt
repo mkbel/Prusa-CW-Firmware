@@ -10,7 +10,7 @@ SET(CPPSTANDARD "-std=gnu++11")
 
 SET(WARN "-Wall -Wextra")
 SET(CPPTUNING "-fno-exceptions -fno-threadsafe-statics")
-SET(OPT "-Os -ffunction-sections -fdata-sections -flto -fno-fat-lto-objects")
+SET(OPT "-Os -ffunction-sections -fdata-sections -flto -fno-fat-lto-objects -felide-constructors")
 SET(MCU "-mmcu=atmega32u4")
 
 # This compile definition is redundant,
