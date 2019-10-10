@@ -68,7 +68,6 @@ add_executable(
 	Prusa-CW-Firmware/Trinamic_TMC2130.cpp
 	Prusa-CW-Firmware/MenuList.cpp
 	Prusa-CW-Firmware/LiquidCrystal_Prusa.cpp
-	Prusa-CW-Firmware/messages.cpp
 	libraries/SPI.cpp
 	core/WInterrupts.c
 	core/hooks.c
