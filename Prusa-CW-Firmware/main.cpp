@@ -12,11 +12,10 @@
 #include "PrusaLcd.h"
 #include "MenuList.h"
 #include "SpeedControl.h"
+#include "messages.h"
 //#include "LiquidCrystal_Prusa.h"
 
 using Ter = PrusaLcd::Terminator;
-
-#define FW_VERSION  "2.1.4"
 
 #define EEPROM_OFFSET 128
 #define MAGIC_SIZE 6
@@ -24,32 +23,7 @@ using Ter = PrusaLcd::Terminator;
 
 typedef char Serial_num_t[20]; //!< Null terminated string for serial number
 
-static const char pgmstr_back[] PROGMEM = "Back";
-static const char pgmstr_fan1_curing[] PROGMEM = "FAN1 curing";
-static const char pgmstr_fan1_drying[] PROGMEM = "FAN1 drying";
-static const char pgmstr_fan2_curing[] PROGMEM = "FAN2 curing";
-static const char pgmstr_fan2_drying[] PROGMEM = "FAN2 drying";
-static const char pgmstr_curing[] PROGMEM = "Curing";
-static const char pgmstr_drying[] PROGMEM = "Drying";
-static const char pgmstr_washing[] PROGMEM = "Washing";
-static const char pgmstr_resin_preheat[] PROGMEM = "Resin preheat";
-static const char pgmstr_rotation_speed[] PROGMEM = "Rotation speed";
-static const char pgmstr_run_mode[] PROGMEM = "Run mode";
-static const char pgmstr_preheat[] PROGMEM = "Preheat";
-static const char pgmstr_sound[] PROGMEM = "Sound";
-static const char pgmstr_fans[] PROGMEM = "Fans";
-static const char pgmstr_led_intensity[] PROGMEM = "LED intensity";
-static const char pgmstr_information_error[] PROGMEM = "Information ->!!";
-static const char pgmstr_information[] PROGMEM = "Information";
-static const char pgmstr_unit_system[] PROGMEM = "Unit system";
-static const char pgmstr_fw_version[] PROGMEM = "FW version: "  FW_VERSION;
-static const char pgmstr_fan1_failure[] PROGMEM = "FAN1 failure";
-static const char pgmstr_fan2_failure[] PROGMEM = "FAN2 failure";
-static const char pgmstr_heater_failure[] PROGMEM = "HEATER failure";
-static const char *pgmstr_serial_number = reinterpret_cast<const char *>(0x7fe0);
-static const char pgmstr_build_nr[] PROGMEM = "Build: " FW_BUILDNR;
-static const char pgmstr_fw_hash[] PROGMEM = FW_HASH;
-static const char pgmstr_workspace[] PROGMEM = FW_LOCAL_CHANGES ? "Workspace dirty" : "Workspace clean";
+
 
 
 Countimer tDown;
@@ -961,11 +935,11 @@ void menu_move(bool sound_echo) {
       {
         Scrolling_item items[] =
         {
-          {pgmstr_back, true, Ter::back},
-          {pgmstr_curing, true, Ter::right},
-          {pgmstr_drying, true, Ter::right},
-          {pgmstr_washing, true, Ter::right},
-          {pgmstr_resin_preheat, true, Ter::right},
+          {str_back, true, Ter::back},
+          {str_curing, true, Ter::right},
+          {str_drying, true, Ter::right},
+          {str_washing, true, Ter::right},
+          {str_resin_preheat, true, Ter::right},
         };
         menu_position = scrolling_list_P(items);
 
@@ -999,15 +973,15 @@ void menu_move(bool sound_echo) {
     {
       Scrolling_item items[] =
       {
-        {pgmstr_back, true, Ter::back},
-        {pgmstr_rotation_speed, true, Ter::right},
-        {pgmstr_run_mode, true, Ter::right},
-        {pgmstr_preheat, true, Ter::right},
-        {pgmstr_sound, true, Ter::right},
-        {pgmstr_fans, true, Ter::right},
-        {pgmstr_led_intensity, true, Ter::right},
-        {is_error() ? pgmstr_information_error : pgmstr_information, true, Ter::right},
-        {pgmstr_unit_system, true, Ter::right},
+        {str_back, true, Ter::back},
+        {str_rotation_speed, true, Ter::right},
+        {str_run_mode, true, Ter::right},
+        {str_preheat, true, Ter::right},
+        {str_sound, true, Ter::right},
+        {str_fans, true, Ter::right},
+        {str_led_intensity, true, Ter::right},
+        {is_error() ? str_information_error : str_information, true, Ter::right},
+        {str_unit_system, true, Ter::right},
       };
       menu_position = scrolling_list_P(items);
       break;
@@ -1085,11 +1059,11 @@ void menu_move(bool sound_echo) {
       {
         Scrolling_item items[] =
         {
-          {pgmstr_back, true, Ter::back},
-          {pgmstr_fan1_curing, true, Ter::right},
-          {pgmstr_fan1_drying, true, Ter::right},
-          {pgmstr_fan2_curing, true, Ter::right},
-          {pgmstr_fan2_drying, true, Ter::right},
+          {str_back, true, Ter::back},
+          {str_fan1_curing, true, Ter::right},
+          {str_fan1_drying, true, Ter::right},
+          {str_fan2_curing, true, Ter::right},
+          {str_fan2_drying, true, Ter::right},
         };
         menu_position = scrolling_list_P(items);
 
@@ -1130,14 +1104,14 @@ void menu_move(bool sound_echo) {
       {
         Scrolling_item items[] =
         {
-          {pgmstr_fw_version, true, Ter::none},
-          {pgmstr_fan1_failure, fan1_error, Ter::none},
-          {pgmstr_fan2_failure, fan2_error, Ter::none},
-          {pgmstr_heater_failure, heater_failure, Ter::none},
-          {pgmstr_serial_number, true, Ter::serialNumber},
-          {pgmstr_build_nr, true, Ter::none},
-          {pgmstr_fw_hash, true, Ter::none},
-          {pgmstr_workspace, true, Ter::none}
+          {str_fw_version, true, Ter::none},
+          {str_fan1_failure, fan1_error, Ter::none},
+          {str_fan2_failure, fan2_error, Ter::none},
+          {str_heater_failure, heater_failure, Ter::none},
+          {str_serial_number, true, Ter::serialNumber},
+          {str_build_nr, true, Ter::none},
+          {str_fw_hash, true, Ter::none},
+          {str_workspace, true, Ter::none}
         };
         menu_position = scrolling_list_P(items);
 
